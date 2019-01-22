@@ -24,6 +24,8 @@
   try {
     var kalturaPlayer = KalturaPlayer.setup(config);
     kalturaPlayer.loadMedia({entryId: '0_wifqaipd'});
+    document.querySelector('.kaltura-player-container').appendChild(kalturaPlayer.getView());
+    window.kalturaPlayer = kalturaPlayer;
   } catch (e) {
     console.error(e.message)
   }

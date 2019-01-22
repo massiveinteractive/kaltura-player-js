@@ -9,12 +9,31 @@ const PROD = process.env.NODE_ENV === 'production';
 const playerType = 'ovp';
 const configDocsUrl = 'https://github.com/kaltura/kaltura-player-js/blob/master/docs/configuration.md';
 
-const getModulesIgnored = function(pathsToIgnore = []) {
-  return pathsToIgnore.map(path => new webpack.IgnorePlugin(path));
+const getModulesReplaced = function(mappings = []) {
+  return mappings.map(item => new webpack.NormalModuleReplacementPlugin(item.module, item.replacement));
 };
 
+const mocksDir = path.resolve(__dirname, 'src', 'mocks');
+
 const plugins = [
-  ...getModulesIgnored([/cast/, /shaka-player/, /playkit-js-ui/, /playkit-js-dash/]),
+  ...getModulesReplaced([
+    {
+      module: /playkit-js-ui/,
+      replacement: path.resolve(mocksDir, 'playkitJsUI.js')
+    },
+    {
+      module: /playkit-js-dash/,
+      replacement: path.resolve(mocksDir, 'playkitJsDash.js')
+    },
+    {
+      module: /shaka-player/,
+      replacement: path.resolve(mocksDir, 'shakaPlayer.js')
+    },
+    {
+      module: /common\/cast/,
+      replacement: path.resolve(mocksDir, 'cast.js')
+    }
+  ]),
   new webpack.HotModuleReplacementPlugin(),
   new webpack.DefinePlugin({
     __VERSION__: JSON.stringify(packageData.version),
