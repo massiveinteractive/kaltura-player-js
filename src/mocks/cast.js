@@ -1,0 +1,3 @@
+const cast = {};
+
+export {cast};
