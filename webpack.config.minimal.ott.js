@@ -6,7 +6,7 @@ const packageData = require('./package.json');
 const CopyPlugin = require('copy-webpack-plugin');
 const webpackConfig = require('./webpack.config');
 const PROD = process.env.NODE_ENV === 'production';
-const playerType = 'ovp';
+const playerType = 'ott';
 const configDocsUrl = 'https://github.com/kaltura/kaltura-player-js/blob/master/docs/configuration.md';
 
 const getModulesReplaced = function(mappings = []) {
@@ -24,14 +24,6 @@ const plugins = [
     {
       module: /playkit-js-ui/,
       replacement: path.resolve(mocksDir, 'playkitJsUI.js')
-    },
-    {
-      module: /playkit-js-dash/,
-      replacement: path.resolve(mocksDir, 'playkitJsDash.js')
-    },
-    {
-      module: /shaka-player/,
-      replacement: path.resolve(mocksDir, 'shakaPlayer.js')
     },
     {
       module: /common\/cast/,
@@ -62,10 +54,10 @@ if (PROD) {
 }
 
 const alias = {
-  'playkit-js-providers': path.resolve('./node_modules/playkit-js-providers/dist/playkit-ovp-provider'),
-  'playkit-js-analytics': path.resolve('./node_modules/@playkit-js/playkit-js-kanalytics'),
-  'player-defaults': path.resolve('./src/ovp/player-defaults'),
-  poster: path.resolve('./src/ovp/poster')
+  'playkit-js-providers': path.resolve('./node_modules/playkit-js-providers/dist/playkit-ott-provider'),
+  'playkit-js-analytics': path.resolve('./node_modules/@playkit-js/playkit-js-ott-analytics'),
+  'player-defaults': path.resolve('./src/ott/player-defaults'),
+  poster: path.resolve('./src/ott/poster')
 };
 
 Object.assign(webpackConfig.resolve.alias, alias);

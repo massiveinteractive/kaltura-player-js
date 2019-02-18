@@ -8,9 +8,9 @@
   "scripts": {
     "clean": "rm -rf ./dist",
     "prebuild": "npm run clean",
-    "dev:ovp:minimal": "webpack-dev-server --config webpack.config.minimal.ovp.js",
+    "dev:ott:minimal": "webpack-dev-server --config webpack.config.minimal.ott.js",
     "build:ovp": "NODE_ENV=production webpack --config webpack.config.ovp.js",
-    "build:ovp:minimal": "NODE_ENV=production webpack --config webpack.config.minimal.ovp.js",
+    "build:ott:minimal": "NODE_ENV=production webpack --config webpack.config.minimal.ott.js",
     "dev:ovp": "webpack-dev-server --config webpack.config.ovp.js",
     "watch:ovp": "webpack --progress --colors --watch --config webpack.config.ovp.js",
     "build:ott": "NODE_ENV=production webpack --config webpack.config.ott.js",
