@@ -40,8 +40,12 @@ function validateTargetId(targetId: string): void {
   if (!targetId) {
     throw new Error(ValidationErrorType.TARGET_ID_REQUIRED);
   }
-  if (!document.getElementById(targetId)) {
+  const targetIdElement = document.getElementById(targetId);
+  if (!targetIdElement) {
     throw new Error(ValidationErrorType.DOM_ELEMENT_WITH_TARGET_ID_REQUIRED + targetId);
+  }
+  if (targetIdElement.getElementsByClassName(CONTAINER_CLASS_NAME).length > 0) {
+    throw new Error(ValidationErrorType.TARGET_ID_ALREADY_USED + targetId);
   }
 }
 
@@ -52,7 +56,7 @@ function validateTargetId(targetId: string): void {
  * @returns {void}
  */
 function validateProviderConfig(providerOptions: ProviderOptionsObject): void {
-  if (!providerOptions.partnerId) {
+  if (!providerOptions.partnerId && providerOptions.partnerId !== 0) {
     throw new Error(ValidationErrorType.PARTNER_ID_REQUIRED);
   }
 }
@@ -247,8 +251,8 @@ function getDefaultOptions(options: PartialKPOptionsObject): KPOptionsObject {
   checkNativeHlsSupport(defaultOptions);
   checkNativeTextTracksSupport(defaultOptions);
   setDefaultAnalyticsPlugin(defaultOptions);
+  configureVrDefaultOptions(defaultOptions);
   configureExternalStreamRedirect(defaultOptions);
-  configureDelayAdsInitialization(defaultOptions);
   return defaultOptions;
 }
 
@@ -274,35 +278,13 @@ function checkNativeHlsSupport(options: KPOptionsObject): void {
 }
 
 /**
- * Configures the delayInitUntilSourceSelected property for the ads plugin based on the runtime platform and the playsinline config value.
- * @private
- * @param {KPOptionsObject} options - kaltura player options
- * @returns {void}
- */
-function configureDelayAdsInitialization(options: KPOptionsObject): void {
-  if (isIos() && options.plugins && options.plugins.ima) {
-    const playsinline = Utils.Object.getPropertyPath(options, 'playback.playsinline');
-    const delayInitUntilSourceSelected = Utils.Object.getPropertyPath(options, 'plugins.ima.delayInitUntilSourceSelected');
-    if ((typeof playsinline !== 'boolean' || playsinline === true) && typeof delayInitUntilSourceSelected !== 'boolean') {
-      Utils.Object.mergeDeep(options, {
-        plugins: {
-          ima: {
-            delayInitUntilSourceSelected: true
-          }
-        }
-      });
-    }
-  }
-}
-
-/**
  * Sets config option for native text track support
  * @private
  * @param {KPOptionsObject} options - kaltura player options
  * @returns {void}
  */
 function checkNativeTextTracksSupport(options: KPOptionsObject): void {
-  if (isSafari()) {
+  if (isSafari() || isIos()) {
     const useNativeTextTrack = Utils.Object.getPropertyPath(options, 'playback.useNativeTextTrack');
     if (typeof useNativeTextTrack !== 'boolean') {
       Utils.Object.mergeDeep(options, {
@@ -314,6 +296,24 @@ function checkNativeTextTracksSupport(options: KPOptionsObject): void {
   }
 }
 
+/**
+ * Sets config option fullscreen element for Vr Mode support
+ * @private
+ * @param {KPOptionsObject} options - kaltura player options
+ * @returns {void}
+ */
+function configureVrDefaultOptions(options: KPOptionsObject): void {
+  if (options.plugins && options.plugins.vr && !options.plugins.vr.disable) {
+    const fullscreenConfig = Utils.Object.getPropertyPath(options, 'playback.inBrowserFullscreen');
+    if (typeof fullscreenConfig !== 'boolean') {
+      Utils.Object.mergeDeep(options, {
+        playback: {
+          inBrowserFullscreen: true
+        }
+      });
+    }
+  }
+}
 /**
  * Transform options structure from legacy structure to new structure.
  * @private
@@ -338,10 +338,14 @@ function supportLegacyOptions(options: Object): PartialKPOptionsObject {
         level: 'warn',
         msg: `Path config.player.${propPath} will be deprecated soon. Please update your config structure as describe here: ${__CONFIG_DOCS_URL__}`
       });
-      const propValue = Utils.Object.getPropertyPath(options, propPath);
-      const propObj = Utils.Object.createPropertyPath({}, targetPath, propValue);
-      Utils.Object.mergeDeep(options, propObj);
-      Utils.Object.deletePropertyPath(options, propPath);
+      if (!Utils.Object.hasPropertyPath(options, targetPath)) {
+        const propValue = Utils.Object.getPropertyPath(options, propPath);
+        const propObj = Utils.Object.createPropertyPath({}, targetPath, propValue);
+        Utils.Object.mergeDeep(options, propObj);
+        Utils.Object.deletePropertyPath(options, propPath);
+      } else {
+        Utils.Object.deletePropertyPath(options, propPath);
+      }
     }
   };
   const moves = [
@@ -351,7 +355,8 @@ function supportLegacyOptions(options: Object): PartialKPOptionsObject {
     ['id', 'sources.id'],
     ['name', 'metadata.name'],
     ['metadata.poster', 'sources.poster'],
-    ['metadata', 'sources.metadata']
+    ['metadata', 'sources.metadata'],
+    ['ui.components.fullscreen.inBrowserFullscreenForIOS', 'playback.inBrowserFullscreen']
   ];
   removePlayerEntry();
   moves.forEach(move => moveProp(move[0], move[1]));
@@ -373,7 +378,7 @@ function printSetupMessages(): void {
  * @returns {boolean} - if browser is Safari
  */
 function isSafari(): boolean {
-  return Env.browser.name.includes('Safari');
+  return Utils.Object.hasPropertyPath(Env, 'browser.name') && Env.browser.name.includes('Safari');
 }
 
 /**
@@ -392,8 +397,7 @@ function isIos(): boolean {
  * @return {void}
  */
 function maybeSetStreamPriority(player: Player, playerConfig: PartialKPOptionsObject): void {
-  const source = playerConfig.sources && playerConfig.sources.progressive;
-  if (source && source[0] && source[0].mimetype === 'video/youtube') {
+  if (playerConfig.sources && hasYoutubeSource(playerConfig.sources)) {
     const playbackConfig = player.config.playback;
     let hasYoutube = false;
     playbackConfig.streamPriority.forEach(sp => {
@@ -412,6 +416,16 @@ function maybeSetStreamPriority(player: Player, playerConfig: PartialKPOptionsOb
   }
 }
 
+/**
+ * returns true if sources contain youtube video source
+ * @param {PKSourcesConfigObject} sources - thr sources object
+ * @returns {boolean} - true if sources contain youtube source
+ */
+function hasYoutubeSource(sources: PKSourcesConfigObject): boolean {
+  const source = sources && sources.progressive;
+  return !!(source && source[0] && source[0].mimetype === 'video/youtube');
+}
+
 export {
   printSetupMessages,
   supportLegacyOptions,
@@ -427,5 +441,6 @@ export {
   getDefaultOptions,
   isSafari,
   isIos,
-  maybeSetStreamPriority
+  maybeSetStreamPriority,
+  hasYoutubeSource
 };

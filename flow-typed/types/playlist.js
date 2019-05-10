@@ -3,10 +3,12 @@ import {PlaylistItem} from '../../src/common/playlist/playlist-item';
 
 /**
  * @typedef {Object} KPPlaylistOptions
- * @property {boolean} autoContinue - Determine whether to continue to the next item automatically.
+ * @property {boolean} [autoContinue=true] - Determines whether to continue to the next item automatically.
+ * @property {boolean} [loop=false] - Determines whether to play the playlist in a loop. When selected, the playlist will play automatically even if autoContinue is set to false.
  */
 type _KPPlaylistOptions = {
-  autoContinue: boolean
+  autoContinue: boolean,
+  loop: boolean
 };
 declare type KPPlaylistOptions = _KPPlaylistOptions;
 
@@ -25,9 +27,9 @@ declare type KPPlaylistCountdownOptions = _KPPlaylistCountdownOptions;
 
 /**
  * @typedef {Object} KPPlaylistConfigObject
- * @property {KPPlaylistOptions} options - The playlist options.
- * @property {KPPlaylistCountdownOptions} countdown - The playlist countdown configuration.
- * @property {Array<PlaylistItem>} items - The playlist items.
+ * @property {KPPlaylistOptions} options - Sets the playlist options.
+ * @property {KPPlaylistCountdownOptions} countdown - Configures the playlist countdown.
+ * @property {Array<PlaylistItem>} items - Lists the available playlist items.
  */
 type _KPPlaylistConfigObject = {
   options: KPPlaylistOptions,
@@ -38,11 +40,11 @@ declare type KPPlaylistConfigObject = _KPPlaylistConfigObject;
 
 /**
  * @typedef {Object} KPPlaylistObject
- * @property {string} id - The playlist ID.
- * @property {ProviderPlaylistMetadataObject} metadata - The playlist metadata.
- * @property {KPPlaylistOptions} options - The playlist options.
- * @property {KPPlaylistCountdownOptions} countdown - The playlist countdown configuration.
- * @property {Array<PlaylistItem>} items - The playlist items.
+ * @property {string} id - This is playlist's ID.
+ * @property {ProviderPlaylistMetadataObject} metadata - This is the playlist metadata.
+ * @property {KPPlaylistOptions} options - These are the playlist options.
+ * @property {KPPlaylistCountdownOptions} countdown - This is the playlist countdown configuration.
+ * @property {Array<PlaylistItem>} items - These are the playlist items.
  */
 type _KPPlaylistObject = {
   id: string,

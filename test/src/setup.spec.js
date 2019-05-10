@@ -31,6 +31,7 @@ describe('setup', function() {
 
   afterEach(function() {
     sandbox.restore();
+    kalturaPlayer.destroy();
     kalturaPlayer = null;
     TestUtils.removeVideoElementsFromTestPage();
   });
@@ -75,7 +76,8 @@ describe('setup', function() {
       fontOpacity: 0,
       backgroundColor: [1, 2, 3],
       backgroundOpacity: 1,
-      fontEdge: []
+      fontEdge: [],
+      fontScale: 1
     };
     sandbox
       .stub(StorageWrapper, 'getItem')
@@ -83,5 +85,24 @@ describe('setup', function() {
       .returns(textStyle);
     kalturaPlayer = setup(config);
     kalturaPlayer.textStyle.should.deep.equal(textStyle);
+  });
+
+  it('should configure sources', function(done) {
+    const url = 'http://cfvod.kaltura.com/pd/p/2196781/sp/219678100/serveFlavor/entryId/1_afvj3z0u/v/1/flavorId/1_vpmhfzgl/name/a.mp4';
+    config.sources = {
+      progressive: [
+        {
+          id: 'id',
+          mimetype: 'video/mp4',
+          url
+        }
+      ]
+    };
+    kalturaPlayer = setup(config);
+    kalturaPlayer.load();
+    kalturaPlayer.ready().then(() => {
+      kalturaPlayer.src.should.equal(url);
+      done();
+    });
   });
 });
