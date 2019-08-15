@@ -281,6 +281,7 @@ function getDefaultOptions(options: PartialKPOptionsObject): KPOptionsObject {
   checkNativeTextTracksSupport(defaultOptions);
   setDefaultAnalyticsPlugin(defaultOptions);
   configureLGTVDefaultOptions(defaultOptions);
+  configureIMADefaultOptions(defaultOptions);
   configureDAIDefaultOptions(defaultOptions);
   configureBumperDefaultOptions(defaultOptions);
   configureExternalStreamRedirect(defaultOptions);
@@ -295,7 +296,7 @@ function getDefaultOptions(options: PartialKPOptionsObject): KPOptionsObject {
  * @returns {void}
  */
 function checkNativeHlsSupport(options: KPOptionsObject): void {
-  if (isSafari() || isIos()) {
+  if ((isMacOS() && isSafari()) || isIos()) {
     const preferNativeHlsValue = Utils.Object.getPropertyPath(options, 'playback.preferNative.hls');
     if (typeof preferNativeHlsValue !== 'boolean') {
       Utils.Object.mergeDeep(options, {
@@ -329,17 +330,42 @@ function checkNativeTextTracksSupport(options: KPOptionsObject): void {
 }
 
 /**
+ * Sets config option for Ads with MSE
+ * @private
+ * @param {KPOptionsObject} options - kaltura player options
+ * @returns {void}
+ */
+function _configureAdsWithMSE(options: KPOptionsObject): void {
+  const playAdsWithMSE = Utils.Object.getPropertyPath(options, 'playback.playAdsWithMSE');
+  //dai should play without playAdsWithMSE config
+  if (typeof playAdsWithMSE !== 'boolean') {
+    if (options.plugins && options.plugins.imadai && !options.plugins.imadai.disable) {
+      options = Utils.Object.createPropertyPath(options, 'playback.playAdsWithMSE', false);
+    } else {
+      options = Utils.Object.createPropertyPath(options, 'playback.playAdsWithMSE', true);
+    }
+  }
+  const disableMediaPreloadIma = Utils.Object.getPropertyPath(options, 'plugins.ima.disableMediaPreload');
+  const disableMediaPreloadBumper = Utils.Object.getPropertyPath(options, 'plugins.bumper.disableMediaPreload');
+
+  if (options.plugins && options.plugins.ima && typeof disableMediaPreloadIma !== 'boolean') {
+    options = Utils.Object.createPropertyPath(options, 'plugins.ima.disableMediaPreload', true);
+  }
+  if (options.plugins && options.plugins.bumper && typeof disableMediaPreloadBumper !== 'boolean') {
+    options = Utils.Object.createPropertyPath(options, 'plugins.bumper.disableMediaPreload', true);
+  }
+}
+/**
  * Sets config option for LG TV
  * @private
  * @param {KPOptionsObject} options - kaltura player options
  * @returns {void}
  */
 function configureLGTVDefaultOptions(options: KPOptionsObject): void {
-  if (isLGTV()) {
-    const preferNativeHls = Utils.Object.getPropertyPath(options, 'playback.preferNative.hls');
-    if (typeof preferNativeHls !== 'boolean') {
-      options = Utils.Object.createPropertyPath(options, 'playback.preferNative.hls', true);
-    }
+  if (isSmartTv()) {
+    //relevant for LG SDK 4 which doesn't support our check for autoplay
+    setCapabilities(EngineType.HTML5, {autoplay: true});
+    _configureAdsWithMSE(options);
     if (options.plugins && options.plugins.ima) {
       const imaForceReload = Utils.Object.getPropertyPath(options, 'plugins.ima.forceReloadMediaAfterAds');
       const delayUntilSourceSelected = Utils.Object.getPropertyPath(options, 'plugins.ima.delayInitUntilSourceSelected');
@@ -350,6 +376,22 @@ function configureLGTVDefaultOptions(options: KPOptionsObject): void {
       if (typeof delayUntilSourceSelected !== 'boolean') {
         options = Utils.Object.createPropertyPath(options, 'plugins.ima.delayInitUntilSourceSelected', true);
       }
+    }
+  }
+}
+
+/**
+ * Sets default config option for ima plugin
+ * @private
+ * @param {KPOptionsObject} options - kaltura player options
+ * @returns {void}
+ */
+function configureIMADefaultOptions(options: KPOptionsObject): void {
+  if (isIos() && options.plugins && options.plugins.ima && !options.plugins.ima.disable) {
+    const playsinline = Utils.Object.getPropertyPath(options, 'playback.playsinline');
+    const disableMediaPreloadIma = Utils.Object.getPropertyPath(options, 'plugins.ima.disableMediaPreload');
+    if (playsinline === false && typeof disableMediaPreloadIma !== 'boolean') {
+      Utils.Object.createPropertyPath(options, 'plugins.ima.disableMediaPreload', true);
     }
   }
 }
@@ -386,15 +428,27 @@ function configureDAIDefaultOptions(options: KPOptionsObject): void {
  * @returns {void}
  */
 function configureBumperDefaultOptions(options: KPOptionsObject): void {
-  const bumperPlugin = Utils.Object.getPropertyPath(options, 'plugins.bumper');
-  const daiPlugin = Utils.Object.getPropertyPath(options, 'plugins.imadai');
-  if (bumperPlugin && !bumperPlugin.disable && daiPlugin && !daiPlugin.disable) {
+  const bumperConfig = Utils.Object.getPropertyPath(options, 'plugins.bumper');
+  const daiConfig = Utils.Object.getPropertyPath(options, 'plugins.imadai');
+  if (bumperConfig) {
+    const newBumperConfig: Object = {};
+    if (
+      typeof bumperConfig.playOnMainVideoTag !== 'boolean' &&
+      (isSmartTv() || (isIos() && options.playback && options.playback.playsinline === false))
+    ) {
+      newBumperConfig['playOnMainVideoTag'] = true;
+    }
+    if (daiConfig && !daiConfig.disable) {
+      if (!Array.isArray(bumperConfig.position)) {
+        newBumperConfig['position'] = [0];
+      }
+      if (typeof bumperConfig.disableMediaPreload !== 'boolean') {
+        newBumperConfig['disableMediaPreload'] = true;
+      }
+    }
     Utils.Object.mergeDeep(options, {
       plugins: {
-        bumper: {
-          position: [0],
-          disableMediaPreload: true
-        }
+        bumper: newBumperConfig
       }
     });
   }
@@ -489,7 +543,7 @@ function isSafari(): boolean {
  * @returns {boolean} - if browser is Safari
  */
 function isMacOS(): boolean {
-  return Env.os.name.toLowerCase() === 'Mac OS';
+  return Env.os.name === 'Mac OS';
 }
 
 /**
@@ -502,12 +556,12 @@ function isIos(): boolean {
 }
 
 /**
- * Returns true if user agent indicate that browser is LG TV
+ * Returns true if user agent indicate that browser is smart TV
  * @private
  * @returns {boolean} - if browser is in LG TV
  */
-function isLGTV(): boolean {
-  return Env.os.name.toLowerCase() === 'web0s';
+function isSmartTv(): boolean {
+  return Env.os.name.toLowerCase() === 'web0s' || Env.os.name.toLowerCase() === 'tizen';
 }
 
 /**
@@ -553,9 +607,8 @@ function hasYoutubeSource(sources: PKSourcesConfigObject): boolean {
  * @returns {void}
  */
 function maybeSetFullScreenConfig(options: KPOptionsObject): void {
-  const bumperPlugin = Utils.Object.getPropertyPath(options, 'plugins.bumper');
   const vrPlugin = Utils.Object.getPropertyPath(options, 'plugins.vr');
-  if ((bumperPlugin && !bumperPlugin.disable) || (vrPlugin && !vrPlugin.disable)) {
+  if (vrPlugin && !vrPlugin.disable) {
     const fullscreenConfig = Utils.Object.getPropertyPath(options, 'playback.inBrowserFullscreen');
     if (typeof fullscreenConfig !== 'boolean') {
       Utils.Object.mergeDeep(options, {
