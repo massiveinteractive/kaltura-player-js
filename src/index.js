@@ -10,6 +10,8 @@ import * as providers from 'playkit-js-providers';
 // Import media source adapters
 import '@playkit-js/playkit-js-hls';
 import '@playkit-js/playkit-js-dash';
+// Import vr plugin
+import '@playkit-js/playkit-js-vr';
 // Import analytics plugin
 import 'playkit-js-analytics';
 // Import shaka-player
