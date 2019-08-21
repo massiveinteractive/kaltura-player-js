@@ -10,6 +10,12 @@
   version "1.16.1"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-hls/-/playkit-js-hls-1.16.1.tgz#935cb81816bfb4bee75ece0d6b89f5ac1aa46267"
 
+"@playkit-js/playkit-js-ima@^0.17.1":
+  version "0.17.1"
+  resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ima/-/playkit-js-ima-0.17.1.tgz#110eee093b86fa78ab4d539998fd646c674a801d"
+  dependencies:
+    javascript-state-machine "https://github.com/kaltura/javascript-state-machine.git#v3.1.0-k-1"
+
 "@playkit-js/playkit-js-kava@^0.11.3":
   version "0.11.3"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-kava/-/playkit-js-kava-0.11.3.tgz#6cba9c678e511fa79c35f4052da1efb229467047"
@@ -4666,6 +4672,10 @@ istanbul@^0.4.0, istanbul@^0.4.5:
     supports-color "^3.1.0"
     which "^1.1.1"
     wordwrap "^1.0.0"
+
+"javascript-state-machine@git+https://github.com/kaltura/javascript-state-machine.git#v3.1.0-k-1":
+  version "3.1.0"
+  resolved "git+https://github.com/kaltura/javascript-state-machine.git#510114d1a7e98b7bc1444ca22f034a3596b46605"
 
 jest-docblock@^21.0.0:
   version "21.2.0"

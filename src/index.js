@@ -12,6 +12,8 @@ import '@playkit-js/playkit-js-hls';
 import '@playkit-js/playkit-js-dash';
 // Import vr plugin
 import '@playkit-js/playkit-js-vr';
+// Import ima plugin for linear ads
+import '@playkit-js/playkit-js-ima';
 // Import analytics plugin
 import 'playkit-js-analytics';
 // Import shaka-player

@@ -7,6 +7,14 @@
   <link rel="stylesheet" type="text/css" href="./style.css" />
   <script src="./kaltura-player.js" type="text/javascript"></script>
   <style>
+    .playkit-player {
+      position: absolute;
+    }
+
+    .playkit-ads-container {
+      z-index: 11;
+    }
+
     /* [playkit vr plugin] layer for the user interaction */
     .playkit-overlay-action {
       position: absolute;
@@ -46,6 +54,12 @@
     },
     plugins: {
       vr: {},
+      ima: {
+        adTagUrl: "https://pubads.g.doubleclick.net/gampad/ads?sz=1024x768&iu=%2F4654%2FToggleV3%2FAd%2F%2FCatchupTV%2F%2FCh5&vid=606155&cmsid=2467960&ciu_szs=300x250&gdfp_req=1&env=vp&output=xml_vast4&unviewed_position_start=1&url=https%3A%2F%2Fvideo.toggle.sg%2Fen%2Fvideo%2Fseries%2Ftanglin%2Fep741%2F606155%3FseekTo%3D298&description_url=https%3A%2F%2Fvideo.toggle.sg%2Fen%2Fvideo%2Fseries%2Ftanglin%2Fep741%2F606155%3FseekTo%3D298&correlator=1870602502556752&cust_params=TV_Shows%3DTanglin%26dfpLotameKey%3D%26UID%3D562f6e2e2dcec3c5f0babc2d3e580457%26genre%3DDrama&sdkv=h.3.233.0&sdki=3c4d&scor=189359321893706&adk=2695441697&media_url=blob%3Ahttps%253a%2F%2Fvideo.toggle.sg%2F75395470-e5a3-4634-ba78-3e7fbc5c37b8&u_so=l&osd=2&frm=0&sdr=1&is_amp=0&adsid=ADfwbujX9wbWyE51sLWMuRVU-ZBlbGAw4zfV49n-9GqWiFV_FRpjfzbcwA&pucrd=CgwIABAAGAMgACgAOAESAhgHeAM&jar=2018-09-01-01&hl=en&mpt=kaltura%2FmwEmbed&mpv=2.69.3&cookie=ID%3D9b16158e786531af%3AT%3D1525671229%3AS%3DALNI_MaOOltqc4oihDHMO8hNUTPp9BVGMg&afvsz=200x200%2C250x250%2C300x250%2C336x280%2C450x50%2C468x60%2C480x70%2C728x90&ged=ve4_td7_tt0_pd7_la7000_er147.30.300.330_vi0.0.831.1087_vp100_eb24299",
+        adsRenderingSettings: {
+          useStyledLinearAds: true,
+        }
+      },
     }
   };
 
