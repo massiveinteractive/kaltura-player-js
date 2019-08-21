@@ -103,6 +103,7 @@
     "@playkit-js/playkit-js": "^0.51.4",
     "@playkit-js/playkit-js-dash": "^1.13.1",
     "@playkit-js/playkit-js-hls": "^1.16.1",
+    "@playkit-js/playkit-js-ima": "^0.17.1",
     "@playkit-js/playkit-js-kava": "^0.11.3",
     "@playkit-js/playkit-js-ott-analytics": "^0.5.1",
     "@playkit-js/playkit-js-ui": "^0.42.1",
