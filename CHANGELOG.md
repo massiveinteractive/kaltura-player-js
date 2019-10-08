@@ -2,6 +2,86 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.47.7"></a>
+## [0.47.7](https://github.com/kaltura/kaltura-player-js/compare/v0.47.6...v0.47.7) (2019-10-07)
+
+
+
+<a name="0.47.6"></a>
+## [0.47.6](https://github.com/kaltura/kaltura-player-js/compare/v0.47.5...v0.47.6) (2019-10-03)
+
+
+### Bug Fixes
+
+* **FEC-9389:** media playing unmuted after unmute fallback ([#272](https://github.com/kaltura/kaltura-player-js/issues/272)) ([dafa0d6](https://github.com/kaltura/kaltura-player-js/commit/dafa0d6))
+
+
+
+<a name="0.47.5"></a>
+## [0.47.5](https://github.com/kaltura/kaltura-player-js/compare/v0.47.4...v0.47.5) (2019-10-03)
+
+
+
+<a name="0.47.4"></a>
+## [0.47.4](https://github.com/kaltura/kaltura-player-js/compare/v0.47.3...v0.47.4) (2019-10-02)
+
+
+
+<a name="0.47.3"></a>
+## [0.47.3](https://github.com/kaltura/kaltura-player-js/compare/v0.47.2...v0.47.3) (2019-09-26)
+
+
+
+<a name="0.47.2"></a>
+## [0.47.2](https://github.com/kaltura/kaltura-player-js/compare/v0.47.1...v0.47.2) (2019-09-26)
+
+
+
+<a name="0.47.1"></a>
+## [0.47.1](https://github.com/kaltura/kaltura-player-js/compare/v0.47.0...v0.47.1) (2019-09-25)
+
+
+
+<a name="0.47.0"></a>
+# [0.47.0](https://github.com/kaltura/kaltura-player-js/compare/v0.46.0...v0.47.0) (2019-09-18)
+
+
+### Features
+
+* **FEC-8696:** allow adding/changing discrete components in U ([#264](https://github.com/kaltura/kaltura-player-js/issues/264)) ([880762e](https://github.com/kaltura/kaltura-player-js/commit/880762e))
+
+
+
+<a name="0.46.0"></a>
+# [0.46.0](https://github.com/kaltura/kaltura-player-js/compare/v0.45.8...v0.46.0) (2019-09-15)
+
+
+### Features
+
+* **FEC-9314:** update Shaka version ([#268](https://github.com/kaltura/kaltura-player-js/issues/268)) ([0739090](https://github.com/kaltura/kaltura-player-js/commit/0739090))
+
+
+
+<a name="0.45.8"></a>
+## [0.45.8](https://github.com/kaltura/kaltura-player-js/compare/v0.45.7...v0.45.8) (2019-08-28)
+
+
+### Bug Fixes
+
+* **FEC-9137:** Samsung smart tv doesn't success playing playready  ([#267](https://github.com/kaltura/kaltura-player-js/issues/267)) ([c14a319](https://github.com/kaltura/kaltura-player-js/commit/c14a319))
+
+
+
+<a name="0.45.7"></a>
+## [0.45.7](https://github.com/kaltura/kaltura-player-js/compare/v0.45.4...v0.45.7) (2019-08-26)
+
+
+
+<a name="0.45.6"></a>
+## [0.45.6](https://github.com/kaltura/kaltura-player-js/compare/v0.45.5...v0.45.6) (2019-08-19)
+
+
+
 <a name="0.45.5"></a>
 ## [0.45.5](https://github.com/kaltura/kaltura-player-js/compare/v0.45.4...v0.45.5) (2019-08-04)
 
