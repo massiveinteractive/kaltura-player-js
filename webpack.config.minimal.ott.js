@@ -28,6 +28,10 @@ const plugins = [
     {
       module: /common\/cast/,
       replacement: path.resolve(mocksDir, 'cast.js')
+    },
+    {
+      module: /player-defaults/,
+      replacement: path.resolve(mocksDir, 'player-defaults.js')
     }
   ]),
   new webpack.HotModuleReplacementPlugin(),
