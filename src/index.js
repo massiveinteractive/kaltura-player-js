@@ -16,6 +16,8 @@ import '@playkit-js/playkit-js-vr';
 import '@playkit-js/playkit-js-ima';
 // Import analytics plugin
 import 'playkit-js-analytics';
+// Import youbora plugin
+import '@playkit-js/playkit-js-youbora';
 // Import shaka-player
 import * as shaka from 'shaka-player';
 // Import setup method

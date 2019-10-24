@@ -13,14 +13,12 @@
 "@playkit-js/playkit-js-ima@^0.17.1":
   version "0.17.2"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ima/-/playkit-js-ima-0.17.2.tgz#418860322ff0abb0d86c349495644baed0dfea04"
-  integrity sha512-8fWMEFX282mEk6sMaxRaL1uQ1E6Frs/D0m0+rjco+tegLhWLsw7liKVWpcIv4Y52ivF6Bs6RX5gHCD93CdtvPA==
   dependencies:
     javascript-state-machine "https://github.com/kaltura/javascript-state-machine.git#v3.1.0-k-1"
 
 "@playkit-js/playkit-js-kava@^0.12.0":
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-kava/-/playkit-js-kava-0.12.0.tgz#ac5208b55c5a889dcf2065f0776ba8598873ff13"
-  integrity sha512-TvB7HiuvJD/neoGoaScMrCu9k7ilKuLFxlluMllW0eLdipAgZ10LXVJCzvC76S2BeP8Kl+QV8zYMHwXPfxyd/A==
 
 "@playkit-js/playkit-js-ott-analytics@^0.5.2":
   version "0.5.2"
@@ -29,7 +27,6 @@
 "@playkit-js/playkit-js-ui@^0.47.5":
   version "0.47.5"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ui/-/playkit-js-ui-0.47.5.tgz#f8b73f582b971fb9fc89dfaad21ac52e1c07252c"
-  integrity sha512-M5CjYizlCohU1Ozpfpc4dllry4m3JcXP7NNYy2Tw5QgCI+5/tWDbgH5fYRrBm78cLm8h8fDdV31OrW4ILX251A==
   dependencies:
     empty "^0.10.1"
     js-logger "^1.6.0"
@@ -42,14 +39,16 @@
 "@playkit-js/playkit-js-vr@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-vr/-/playkit-js-vr-1.4.0.tgz#72abebd44c912f9211b44aef3ad15b3641aa4ad6"
-  integrity sha512-veXzxgFNCVXPhqKBXrTnUMrjDZoXGRAh1vorr51wr4GTodS0i5iTbqlSlksE7nOdDfmEgwhcZ3SCKKxzbIQpQg==
   dependencies:
     three "^0.93.0"
+
+"@playkit-js/playkit-js-youbora@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-youbora/-/playkit-js-youbora-1.1.1.tgz#dda3dd63eff9dce46dbb48f27fa45b203a837bc6"
 
 "@playkit-js/playkit-js@^0.55.3":
   version "0.55.3"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js/-/playkit-js-0.55.3.tgz#1d5710e56b969ea1e73e4976d1fa2c319b04d37f"
-  integrity sha512-5gQXYVOMfWacV8jQIkTZwIgNwTEV2J93wxB1uqRjH3wYsxkg6WxSve8q2TUDiRdPPd/hobZ1UK1YPmub0bJacg==
   dependencies:
     js-logger "^1.3.0"
     ua-parser-js "^0.7.13"
@@ -4678,9 +4677,9 @@ istanbul@^0.4.0, istanbul@^0.4.5:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-"javascript-state-machine@git+https://github.com/kaltura/javascript-state-machine.git#v3.1.0-k-1":
+"javascript-state-machine@https://github.com/kaltura/javascript-state-machine.git#v3.1.0-k-1":
   version "3.1.0"
-  resolved "git+https://github.com/kaltura/javascript-state-machine.git#510114d1a7e98b7bc1444ca22f034a3596b46605"
+  resolved "https://github.com/kaltura/javascript-state-machine.git#510114d1a7e98b7bc1444ca22f034a3596b46605"
 
 jest-docblock@^21.0.0:
   version "21.2.0"
