@@ -108,6 +108,7 @@
     "@playkit-js/playkit-js-ui": "^0.47.5",
     "@playkit-js/playkit-js-ima": "^0.17.1",
     "@playkit-js/playkit-js-vr": "^1.4.0",
+    "@playkit-js/playkit-js-youbora": "^1.1.1",
     "babel-polyfill": "^6.23.0",
     "hls.js": "^0.12.2",
     "js-logger": "^1.3.0",
